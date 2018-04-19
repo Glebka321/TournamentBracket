@@ -1,21 +1,21 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Tournament {
     
     private Game[] games;
-    public Tournament (ArrayList<String> list) {
+    public Tournament (List<String> list) {
         games = populateGames(list);
     }
     /**
      * Creates new instances of games from the list of teams
      * @param list
      */
-    private Game[] populateGames(ArrayList<String> list) {
+    private Game[] populateGames(List<String> list) {
         Game[] game = new Game[list.size() / 2];
         int rank = 0;
         Challenger[] challengers = new Challenger[list.size()];
         for (String s : list) {
-            challengers[rank] = new Challenger(s, rank + 1);
+            challengers[rank] = new Challenger(s);
             rank++;
         }
         for (int i = 0; i < list.size() / 2; i++) {
@@ -42,7 +42,7 @@ public class Tournament {
      * Creates a new round of games
      * @return
      */
-    private Game[] nextRound() {
+    public Game[] nextRound() {
         Game[] nextRound = new Game[games.length];
         int gameCounter = 0;
         for (int i = 0; i < games.length / 2; i++) {

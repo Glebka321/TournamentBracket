@@ -61,11 +61,11 @@ public class GUI {
 		currentRound++;
 		for (int y = 0; y < Math.ceil(games.length/4); y++) {
 			Label c1 = new Label();
-			c1.setText(games[y].getChallengers[0].getName());
+			c1.setText(games[y].getChallengers()[0].getName());
 			TextField t1 = new TextField();
 
 			Label c2 = new Label();
-			c2.setText(games[y].getChallengers[1].getName());
+			c2.setText(games[y].getChallengers()[1].getName());
 			TextField t2 = new TextField();
 
 			gpane.add(c1, currentRound*2, y*2);
@@ -75,11 +75,11 @@ public class GUI {
 		}
 		for (int y = (int) Math.ceil(games.length/4); y < games.length/2; y++) {
 			Label c1 = new Label();
-			c1.setText(games[y].getChallengers[0].getName());
+			c1.setText(games[y].getChallengers()[0].getName());
 			TextField t1 = new TextField();
 
 			Label c2 = new Label();
-			c2.setText(games[y].getChallengers[1].getName());
+			c2.setText(games[y].getChallengers()[1].getName());
 			TextField t2 = new TextField();
 
 			gpane.add(c1, games.length*4 - 1 - currentRound*2, y*2);
