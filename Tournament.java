@@ -19,7 +19,7 @@ public class Tournament {
             rank++;
         }
         for (int i = 0; i < list.size() / 2; i++) {
-            game[i] = new Game(challengers[i], challengers[rank - i]);
+            game[i] = new Game(challengers[i], challengers[rank - i - 1]);
         }  
         return swap(game);
     }
@@ -32,8 +32,8 @@ public class Tournament {
         int cnt = 0;
         for (int i = 1; i < game.length / 2; i += 2) {
             Game tmp = game[i];
-            game[i] = game[game.length - cnt];
-            game[game.length - cnt] = tmp;
+            game[i] = game[game.length - cnt - 1];
+            game[game.length - cnt - 1] = tmp;
             cnt += 2;
         }
         return game;
