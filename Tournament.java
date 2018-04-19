@@ -1,10 +1,16 @@
 import java.util.ArrayList;
+import javafx.stage.Stage;
 
 public class Tournament {
     
     private Game[] games;
-    public Tournament (ArrayList<String> list) {
+    Stage primaryStage;
+    GUI gui;
+    
+    public Tournament (Stage primaryStage, ArrayList<String> list) {
         games = populateGames(list);
+        this.primaryStage = primaryStage;
+        gui = makeGUI();
     }
     /**
      * Creates new instances of games from the list of teams
@@ -53,9 +59,12 @@ public class Tournament {
         return games;
     }
    
-    /*
+    /**
+     * 
+     * @return
+     */
     private GUI makeGUI() {
-        
-    }*/
+        return new GUI(primaryStage,this,games);
+    }
     
 }
