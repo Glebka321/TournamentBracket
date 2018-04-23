@@ -128,6 +128,6 @@ public class GUI {
 	private void displayTopThree(Game[] games) {
 		gpane.add(new Label(this.games[0].getWinner().getName()), 4, 13);
 		gpane.add(new Label(this.games[0].getLoser().getName()), 4, 14);
-		gpane.add(new Label("Third place: "), 4, 15);
+		gpane.add(new Label("Not coded yet"), 4, 15);
 	}
 }
