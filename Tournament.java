@@ -1,10 +1,15 @@
 import java.util.List;
 
+import javafx.stage.Stage;
+
 public class Tournament {
     
     private Game[] games;
-    public Tournament (List<String> list) {
+    private GUI gui;
+    
+    public Tournament (List<String> list, Stage primaryStage) {
         games = populateGames(list);
+        gui = new GUI(primaryStage, this, games);
     }
     /**
      * Creates new instances of games from the list of teams
@@ -18,10 +23,11 @@ public class Tournament {
             challengers[rank] = new Challenger(s);
             rank++;
         }
-        for (int i = 0; i < list.size() / 2; i++) {
-            game[i] = new Game(challengers[i], challengers[rank - i]);
+        for (int i = 0; i < list.size()/2; i++) {
+        	//System.out.println(rank + "  " + i +  "  " + list.size());
+            game[i] = new Game(challengers[i], challengers[rank - i - 1]);
         }  
-        return swap(game);
+        return game;//swap(game);
     }
     /**
      * Adjust the tournament bracket
@@ -42,15 +48,13 @@ public class Tournament {
      * Creates a new round of games
      * @return
      */
-    public Game[] nextRound() {
-        Game[] nextRound = new Game[games.length];
-        int gameCounter = 0;
-        for (int i = 0; i < games.length / 2; i++) {
-            nextRound[i] = new Game(games[gameCounter].getWinner(), games[gameCounter + 1].getWinner());
-            gameCounter += 2;
+    public void nextRound() {
+        Game[] nextRound = new Game[games.length/2];
+        for (int i = 0; i < games.length-1; i+=2) {
+            nextRound[i/2] = new Game(games[i].getWinner(), games[i + 1].getWinner());
         } 
         games = nextRound;
-        return games;
+        gui.nextRound(games);
     }
    
     /*
