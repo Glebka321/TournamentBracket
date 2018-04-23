@@ -15,19 +15,23 @@ public class GUI {
 	Scene scene;
 	GridPane gpane;
 	Button next = new Button();
-	Game[] games;
+	Game[] games = new Game[0];
 
 	Tournament tourney;
 	int currentRound = -1;
 	int length;
 
-	public GUI(Stage primaryStage, Tournament tourney, Game[] games) {
+	public GUI(Stage primaryStage, Tournament tourney, Game[] games, String solo) {
+		this.tourney = tourney;
 		this.primaryStage = primaryStage;
 		gpane = new GridPane();
 		scene = new Scene(gpane, 1000, 500);
 		this.length = games.length;
 
-		nextRound(games);
+		if (solo != null)
+			displayTopThree(new Game[0], solo);
+		else
+			nextRound(games);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -86,7 +90,7 @@ public class GUI {
 
 	public void nextRound(Game[] games) {
 		if (games.length == 0)
-			displayTopThree(this.games);
+			displayTopThree(this.games, null);
 		this.games = games;
 		currentRound++;
 		for (int y = 0; y < Math.ceil(games.length/2); y++) {
@@ -117,7 +121,6 @@ public class GUI {
 			TextField t2 = new TextField();
 
 			//6*ln(games.length) determined using a logarithmic regression on points (2, 4) (4, 8) (8, 12)
-			System.out.println(currentRound);
 			gpane.add(c1, (int)(6*Math.log(length)) - currentRound*2, (y - (int) Math.ceil(games.length/2))*3);
 			gpane.add(t1,(int)(6*Math.log(length)) - currentRound*2 + 1, (y - (int) Math.ceil(games.length/2))*3);
 			gpane.add(c2, (int)(6*Math.log(length)) - currentRound*2, (y - (int) Math.ceil(games.length/2))*3 + 1);
@@ -125,9 +128,15 @@ public class GUI {
 		}
 	}
 
-	private void displayTopThree(Game[] games) {
-		gpane.add(new Label(this.games[0].getWinner().getName()), 4, 13);
-		gpane.add(new Label(this.games[0].getLoser().getName()), 4, 14);
-		gpane.add(new Label("Not coded yet"), 4, 15);
+	private void displayTopThree(Game[] games, String solo) {
+		if (games.length == 0) {
+			gpane.add(new Label(solo != null ? solo : "None"), 4, 13);
+			gpane.add(new Label("None"), 4, 14);
+			gpane.add(new Label("None"), 4, 15);
+		} else {
+			gpane.add(new Label(this.games[0].getWinner().getName()), 4, 13);
+			gpane.add(new Label(this.games[0].getLoser().getName()), 4, 14);
+			gpane.add(new Label(tourney.getThird() != null ? tourney.getThird() : "None"), 4, 15);
+		}
 	}
 }
