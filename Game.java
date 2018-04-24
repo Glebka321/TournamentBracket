@@ -14,18 +14,18 @@ public class Game {
 	}
 
 	public Challenger getWinner() {
-		if (finalScores[0] > finalScores[1])
-			return challenger1;
-		return challenger2;
+		return (finalScores[0] > finalScores[1] ? challenger1 : challenger2);
 	}
 
 	public Challenger getLoser() {
-		if (finalScores[0] > finalScores[1])
-			return challenger2;
-		return challenger1;
+		return (finalScores[0] > finalScores[1] ? challenger2 : challenger1);
 	}
 
 	public Challenger[] getChallengers() {
 		return new Challenger[] {challenger1, challenger2};
+	}
+	
+	public int getLoserScore() {
+		return (finalScores[0] > finalScores[1] ? finalScores[1] : finalScores[0]);
 	}
 }
