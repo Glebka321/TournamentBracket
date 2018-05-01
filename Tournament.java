@@ -4,24 +4,36 @@ import javafx.stage.Stage;
 
 public class Tournament {
 
-	private Game[] games;
+	private Game[] games = new Game[0];
 	private Game[] finale;
 	private Game[] semifinal;
 	private GUI gui;
-	private String solo;
+	private String solo; //only one team in read file
+	private int challengers;
 
 	public Tournament (List<String> list, Stage primaryStage) {
-		if (list.size() == 1)
-			solo = list.get(0);
+		challengers = list.size();
 		games = populateGames(list);
-		gui = new GUI(primaryStage, this, games, solo);
+		if(list.size() == 0) {
+			solo = "None";
+		}
+		gui = new GUI(primaryStage, this, games, solo, challengers);
+		
+		if (list.size() == 1) {
+			solo = list.get(0);
+			gui.displayTopThree(games, solo);
+			return;
+		}
 	}
 	/**
 	 * Creates new instances of games from the list of teams
 	 * @param list
 	 */
 	private Game[] populateGames(List<String> list) {
-		Game[] game = new Game[list.size() / 2];
+		if (list.size() == 0) {
+			return null;
+		}
+		Game[] tempGames = new Game[list.size() - 1];
 		int rank = 0;
 		Challenger[] challengers = new Challenger[list.size()];
 		for (String s : list) {
@@ -29,31 +41,53 @@ public class Tournament {
 			rank++;
 		}
 		for (int i = 0; i < list.size()/2; i++) {
-			game[i] = new Game(challengers[i], challengers[rank - i - 1]);
+			tempGames[i] = new Game(challengers[i], challengers[rank - i - 1], this, i); //debug
 		}
-		return game;
+		for (int i = list.size()/2; i < tempGames.length; i++) {
+			tempGames[i] = new Game(this, i); //debug
+		}
+		return tempGames;
 	}
 
 	/**
 	 * Creates a new round of games
 	 * @return
 	 */
-	public void nextRound() {
-		Game[] nextRound = new Game[games.length/2];
-		for (int i = 0; i < games.length-1; i+=2) {
-			nextRound[i/2] = new Game(games[i].getWinner(), games[i + 1].getWinner());
-		} 
-		semifinal = finale;
-		finale = games;
-		games = nextRound;
-		gui.nextRound(games);
+	public void nextRound(int gamePos) {
+		if((challengers + gamePos)/2 >= games.length) {
+			gui.displayTopThree(games, null);
+			return;
+		}
+		
+		double nextGame = ((double)challengers + gamePos)/2.0;
+		if (nextGame - Math.floor(nextGame) > 0) {	// bottom
+			games[(challengers + gamePos)/2].setc2(games[gamePos].getWinner());
+		} else {									// top
+			games[(challengers + gamePos)/2].setc1(games[gamePos].getWinner());
+		}
+		
+		gui.update((int)nextGame);
+
+		
+//		Game[] nextRound = new Game[games.length/2];
+//		for (int i = 0; i < games.length-1; i+=2) {
+//			nextRound[i/2] = new Game(games[i].getWinner(), games[i + 1].getWinner());
+//		} 
+//		semifinal = finale;
+//		finale = games;
+//		games = nextRound;
+//		gui.nextRound(games);
 	}
 
 	public String getThird() {
-		if (semifinal != null)
-		return (semifinal[0].getLoserScore() > semifinal[1].getLoserScore() ?
-				semifinal[0].getLoser().getName() : semifinal[1].getLoser().getName());
-		else
-			return null;
+		if(games[games.length - 2].getLoserScore() > games[games.length - 3].getLoserScore()) {
+			return games[games.length - 2].getLoser().name;
+		} else {
+			return games[games.length - 3].getLoser().name;
+		}
 	}
+	
+//	public void update(int gamePos) {
+//		gui.update(gamePos);
+//	}
 }
