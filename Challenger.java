@@ -1,13 +1,11 @@
 public class Challenger {
     String name;
-    int rank;
     
-    public Challenger(String name, int rank) {
+    public Challenger(String name) {
         this.name = name;
-        this.rank = rank;
     }
     
-    private String getName() {
+    public String getName() {
         return name;
     }
 }
