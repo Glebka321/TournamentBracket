@@ -1,3 +1,17 @@
+/**
+ * Title:		Tournament
+ * Files:		Main.java, Tournament.java, GUI.java, Game.java, Challenger.java
+ * Course:		CS400 Spring 2018
+ * 
+ * Bugs:		Handles up to 2^6 teams, do not use 2^7
+ * 
+ * @author		Michael White, Haocheng Chen, Daniel Miller, Gleb Tsyganov
+ * Email:		mswhite3@wisc.edu, hwang663@wisc.edu, ddmiller3@wisc.edu, tsyganov@wisc.edu
+ * Instructor:	Professor Deppeler
+ * 
+ * Date:		May 5, 2018
+ */
+
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
